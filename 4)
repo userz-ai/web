@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sticky Navbar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="navbar-list">
+      <li class="navbar-item"><a href="#">Home</a></li>
+      <li class="navbar-item"><a href="#">About</a></li>
+      <li class="navbar-item"><a href="#">Services</a></li>
+      <li class="navbar-item"><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h1>Home page</h1>
+    <p>Welcome to this page.</p>
+    <div style="height: 2000px;"></div>
+  </div>
+</body>
+</html>
+
+
+
+.navbar {
+    background-color: #333;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 50px;
+  }
+  
+  .navbar-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .navbar-item {
+    float: left;
+    width: 25%;
+    text-align: center;
+  }
+  
+  .navbar-item a {
+    display: block;
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .navbar-item a:hover {
+    background-color: #444;
+  }
+  .content {
+    padding-top: 50px;
+    text-align: center;
+  }
+
+
+
+
+  $navbar-bg: #333;
+$navbar-text-color: #fff;
+$hover-bg: #444;
+$navbar-height: 50px;
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+.navbar {
+  background-color: $navbar-bg;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; 
+  height: $navbar-height;
+  @include clearfix;  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.navbar-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.navbar-item {
+  float: left;
+  width: 25%; 
+  text-align: center;
+
+  a {
+    display: block;
+    padding: 15px;
+    color: $navbar-text-color;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $hover-bg;
+    }
+  }
+}
+
+.content {
+  padding-top: $navbar-height; 
+  text-align: center;
+}
