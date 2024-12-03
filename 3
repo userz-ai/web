@@ -1,0 +1,91 @@
+3)
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Event Registration</h1>
+        <form id="registrationForm">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+           <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+             <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+            <label for="event">Select Event:</label>
+            <select id="event" name="event" required>
+                <option value="">-- Select an Event --</option>
+                <option value="workshop">Workshop</option>
+               
+
+ <option value="webinar">Webinar</option>
+  <option value="networking">Networking</option>
+    </select>
+            <label for="additionalInfo">Additional Information:</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4"></textarea>
+       <button type="submit">Register</button>
+        </form>
+        <p id="responseMessage" class="hidden"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+style.css
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900 &display=swap");
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins",sans-serif;
+}
+body {
+display: flex;
+justify-content: center; align-items: center; 
+
+
+min-height: 100vh;
+background: url("back.jpg") no-repeat center center; background-size: cover;
+margin: 0;
+}
+.wrapper{ width: 750px;
+background: transparent;
+border: 2px solid rgba(255, 255, 255, .2);
+box-shadow: 0 0 10px rgba(0, 0, 0, .2); backdrop-filter: blur(50px);
+border-radius: 10px; color: #fff;
+padding: 40px 35px 55px
+margin: 0 10px;
+}
+.wrapper h1{
+font-size: 36px; text-align: center;
+margin-bottom: 20px;
+}
+.wrapper .input-box{ display: flex;
+justify-content: space-between; flex-wrap: wrap;
+}
+.input-box .input-field{ 
+
+
+  position: relative; 
+   width: 48%;
+height: 50px; margin: 13px 00;
+.input-box .input-field input{ 
+width: 100%;
+height: 100%; background: transparent;
+border: 2px solid rgba(255, 255, 255, .2); outline: none;
+font-size: 16px; color: #fff;
+border-radius: 6px;
+}
+.input-box .input-field input::placeholder{ color: #fff;
+}
+.input-box .input-field i{ position: absolute; left: 15px;
+top: 50%;
+transform: translateY(-50%); font-size: 20px;
+}
+@media (max-width: 1000px){
+.input-box .input-field{ width: 100%;}}
