@@ -1,0 +1,132 @@
+
+DB.PHP
+<?php
+// db.php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "todo_app";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+ACTION.PHP
+<?php
+// action.php
+include 'db.php';
+$action = $_POST['action'] ?? '';
+switch ($action) {
+    case 'create':
+        $title = $_POST['title'] ?? '';
+        $description = $_POST['description'] ?? '';
+        if ($title) {
+            $stmt = $conn->prepare("INSERT INTO tasks (title, description) VALUES (?, ?)");
+            $stmt->bind_param("ss", $title, $description);
+            $stmt->execute();
+        }
+        header("Location: index.php");
+        break;
+    case 'update':
+        $id = $_POST['id'] ?? null;
+    
+
+
+    $title = $_POST['title'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $completed = isset($_POST['completed']) ? 1 : 0;
+        if ($id && $title) {
+            $stmt = $conn->prepare("UPDATE tasks SET title = ?, description = ?, completed = ?           WHERE id = ?");
+   $stmt->bind_param("ssii", $title, $description, $completed, $id);
+            $stmt->execute();
+        }
+        header("Location: index.php");
+        break;
+    case 'delete':
+        $id = $_POST['id'] ?? null;
+ if ($id) {
+            $stmt = $conn->prepare("DELETE FROM tasks WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+        }
+        header("Location: index.php");
+        break;
+    default:
+        echo "Invalid action.";
+}
+$conn->close();
+?>
+INDEX.PHP
+include 'db.php';
+// Fetch all tasks
+$result = $conn->query("SELECT * FROM tasks ORDER BY created_at DESC");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+
+
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }
+  th { background-color: #f4f4f4; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <!-- Add New Task -->
+    <h2>Add New Task</h2>
+    <form action="action.php" method="post">
+        <input type="hidden" name="action" value="create">
+        <input type="text" name="title" placeholder="Task Title" required>
+        <input type="text" name="description" placeholder="Task Description">
+        <button type="submit">Add Task</button>
+    </form>
+    <!-- Task List -->
+    <h2>Tasks</h2>
+    <table>
+    <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+        <?php while ($row = $result->fetch_assoc()): ?
+      <tr>
+             
+
+
+               <td><?= $row['id'] ?></td>
+                <td class="<?= $row['completed'] ? 'completed' : '' ?>"><?= htmlspecialchars($row['title']) ?></td>
+                <td><?= htmlspecialchars($row['description']) ?></td>
+                <td><?= $row['completed'] ? 'Yes' : 'No' ?></td>
+                <td>
+                    <!-- Delete Task -->
+                    <form action="action.php" method="post" style="display:inline;">
+                       <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <!-- Update Task -->
+                    <form action="action.php" method="post" style="display:inline;">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="hidden" name="completed" value="<?= $row['completed'] ? 0 : 1 ?>">
+                        <button type="submit"><?= $row['completed'] ? 'Mark Incomplete' : 'Mark Complete' ?></button>
+                    </form>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+</body>
+</html>
+
